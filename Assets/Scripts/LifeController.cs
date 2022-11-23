@@ -26,7 +26,7 @@ public class LifeController : MonoBehaviour
     void Update()
     {
         invencible_time = invencible_time - Time.deltaTime;
-        if (invencible_time > 0);
+        if (invencible_time > 0)
         {
             renderer.color = tint_invencible;
         }
