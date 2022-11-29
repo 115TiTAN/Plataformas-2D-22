@@ -34,12 +34,12 @@ public class MovimientoHorizontal : MonoBehaviour
 
         if(horizontal > 0)
         {
-            transform.localScale = new Vector3(1, 1, 1);
+            transform.localScale = new Vector3(2, 2, 2);
         }
 
         if (horizontal < 0)
         {
-            transform.localScale = new Vector3(-1, 1, 1);
+            transform.localScale = new Vector3(-2, 2, 2);
         }
         transform.position = transform.position + new Vector3(horizontal * Time.deltaTime, 0, 0);
     }

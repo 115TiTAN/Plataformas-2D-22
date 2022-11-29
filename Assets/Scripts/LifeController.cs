@@ -22,18 +22,19 @@ public class LifeController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        renderer = rb.GetComponent<SpriteRenderer>();
     }
     void Update()
     {
-        invencible_time = invencible_time - Time.deltaTime;
-        if (invencible_time > 0)
-        {
-            renderer.color = tint_invencible;
-        }
-        else
-        {
-            renderer.color = tint_normal;
-        }
+        //invencible_time = invencible_time - Time.deltaTime;
+        //if (invencible_time > 0)
+        //{
+        //    renderer.color = tint_invencible;
+        //}
+        //else
+        //{
+        //    renderer.color = tint_normal;
+        //}
     }
     public void Damage(int ammount)
     {
