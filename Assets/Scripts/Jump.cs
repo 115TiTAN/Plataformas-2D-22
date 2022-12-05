@@ -17,9 +17,31 @@ public class Jump : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        PlatformEffector2D efector = null;
+        try
+        {
+            efector = ground.plataforma_actual.GetComponent<PlatformEffector2D>();
+        }
+        catch
+        {
+
+        }
         if(ground.grounded == true && Input.GetButtonDown("Jump"))
         {
-            rb.AddForce(new Vector2(0, force));
+            if (efector != null && Input.GetAxis("Vertical") < 0)
+            {
+                StartCoroutine(desactivar_plataforma(ground.plataforma_actual));
+            }
+            else
+            {
+                rb.AddForce(new Vector2(0, force));
+            }
         }
+    }
+    IEnumerator desactivar_plataforma(GameObject plataforma)
+    {
+        plataforma.GetComponent<Collider2D>().enabled = false;
+        yield return new WaitForSeconds(1);
+        plataforma.GetComponent<Collider2D>().enabled = true;
     }
 }
