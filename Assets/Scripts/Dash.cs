@@ -4,45 +4,44 @@ using UnityEngine;
 
 public class Dash : MonoBehaviour
 {
-    public float distance;
-    public float speed;
-    public int dash_max = 1;
-    public float recoverySpeed = 1;
-    float dash_current;
-    GroundDetector ground;
-    Rigidbody2D rb;
-    // Start is called before the first frame update
+    public float dodgeSpeed = 10.0f;
+    public float dodgeDistance = 2.0f;
+    public LayerMask groundLayers; // The layers that are considered ground
+    public AnimationClip Roll; // The animation to play when the player dodges
+
+    private Rigidbody2D rb;
+    private Collider2D collider;
+    private Animator animator;
+    private bool isGrounded;
+
     void Start()
     {
-        ground = GetComponent<GroundDetector>();
-        rb = GetComponent<Rigidbody2D>();  
+        rb = GetComponent<Rigidbody2D>();
+        collider = GetComponent<Collider2D>();
+        animator = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (ground.grounded)
+        // Check if the player is on the ground
+        isGrounded = Physics2D.IsTouchingLayers(collider, groundLayers);
+
+        if (Input.GetKeyDown(KeyCode.LeftShift) && isGrounded)
         {
-            dash_current = dash_current + Time.deltaTime / recoverySpeed;
-            if (dash_current > dash_max)
-            {
-                dash_current = dash_max;
-            }
+            Dodge();
         }
-        if (Input.GetButtonDown("Dash") && dash_current >= 1)
-        {
-            dash_current = dash_current - 1;
-            float vertical = transform.position.y;
-            //transform.position = transform.position + new Vector3(distance * transform.localScale.x, 0);
-            if(transform.localScale.x > 0)
-            {
-                rb.AddForce(new Vector2(distance * speed, vertical));
-            }
-            else
-            {
-                rb.AddForce(new Vector2(-distance * speed, vertical));
-            }
-            
-        }
+    }
+
+    void Dodge()
+    {
+        // Play the dodge animation
+        animator.Play(Roll.name);
+
+        // Determine the direction of the dodge
+        Vector2 dodgeDirection = new Vector2(Input.GetAxisRaw("Horizontal"), 0);
+        dodgeDirection = dodgeDirection.normalized;
+
+        // Apply the force in the direction of the dodge
+        rb.AddForce(dodgeDirection * dodgeSpeed * dodgeDistance * Time.deltaTime, ForceMode2D.Impulse);
     }
 }
