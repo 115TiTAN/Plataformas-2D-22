@@ -4,17 +4,15 @@ using UnityEngine;
 
 public class DashController : MonoBehaviour
 {
-    [SerializeField]
-    private float dashSpeed;
-    
-    [SerializeField]
-    private float dashDuration = 0.1f;
-    
-    [SerializeField]
-    private float dashCooldown = 0.5f;
+    public float dashSpeed = 20f;
+    public float dashDuration = 0.1f;
+    public float dashCooldown = 0.5f;
+    public float dashGravityScale = 0f;
+    public float normalGravityScale = 2f;
 
     private bool canDash = true;
     private bool isDashing = false;
+    private float lastDash = -10f;
 
     private Rigidbody2D rb;
 
@@ -27,26 +25,34 @@ public class DashController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash) {
+        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
+        {
             isDashing = true;
+            lastDash = Time.time;
             canDash = false;
+            rb.gravityScale = dashGravityScale;
         }
 
-        if (isDashing) {
+        if (isDashing)
+        {
             float direction = transform.localScale.x > 0 ? 1 : -1;
-            transform.position += new Vector3(direction * dashSpeed * Time.deltaTime, 0, 0);
+            Vector2 horizontalMovement = new Vector2(direction * dashSpeed * Time.deltaTime, 0f);
+            transform.position += (Vector3)horizontalMovement;
             dashDuration -= Time.deltaTime;
-            if (dashDuration <= 0) {
+            if (dashDuration <= 0)
+            {
                 isDashing = false;
                 dashDuration = 0.1f;
+                rb.gravityScale = normalGravityScale;
             }
         }
 
-        if (!canDash) {
-            dashCooldown -= Time.deltaTime;
-            if (dashCooldown <= 0) {
+        if (!canDash)
+        {
+            float timeSinceDash = Time.time - lastDash;
+            if (timeSinceDash > dashCooldown)
+            {
                 canDash = true;
-                dashCooldown = 0.5f;
             }
         }
     }
