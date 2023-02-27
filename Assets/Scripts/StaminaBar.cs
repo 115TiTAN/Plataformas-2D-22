@@ -1,25 +1,37 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StaminaBar : MonoBehaviour
 {
-    [Range(0, 4000)]
-    public int stamina;
-    public int maxStamina = 2000;
+    public Slider staminaBar;
 
-    public RectTransform uiBar;
+    private int maxStamina = 100;
+    private int currentStamina;
 
-    private void Update()
+    public static StaminaBar instance;
+
+    private void Awake()
     {
-        if (stamina > maxStamina) stamina = maxStamina;
-        else if (stamina < 0) stamina = 0;
+        instance = this;
+    }
+    // Start is called before the first frame update
+    void Start()
+    {
+        currentStamina = maxStamina;
+        staminaBar.maxValue = maxStamina;
+        staminaBar.value = maxStamina;
     }
 
-    private void OnValidate()
+    public void UseStamina(int amount)
     {
-        if (stamina > maxStamina) stamina = maxStamina;
-        else if (stamina < 0) stamina = 0;
+        if(currentStamina - amount >= 0)
+        {
+            currentStamina -= amount;
+            staminaBar.value = currentStamina;
+        }
+        else
+        {
+            Debug.Log("Not enough stamina");
+        }
     }
 }
-//WIP
