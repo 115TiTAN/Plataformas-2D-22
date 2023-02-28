@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 public class StaminaBar : MonoBehaviour
 {
@@ -8,9 +9,15 @@ public class StaminaBar : MonoBehaviour
     private int maxStamina = 100;
     private int currentStamina;
 
-	private WaitForSeconds regenTick = new WaitForSeconds(0.1f);
+    private WaitForSeconds regenTick = new WaitForSeconds(0.03f);
+    private Coroutine regen;
 
     public static StaminaBar instance;
+
+    public int GetCurrentStamina()
+    {
+        return currentStamina;
+    }
 
     private void Awake()
     {
@@ -30,13 +37,11 @@ public class StaminaBar : MonoBehaviour
         {
             currentStamina -= amount;
             staminaBar.value = currentStamina;
-			
-			if(regen != null)
-			{
-				stopCoroutine(regen);
-			}
 
-			regen = StartCoroutine(RegenStamina());
+            if (regen != null)
+                StopCoroutine(regen);
+
+            regen = StartCoroutine(regenStamina());
         }
         else
         {
@@ -44,16 +49,16 @@ public class StaminaBar : MonoBehaviour
         }
     }
 
-	private IEnumerator RegenStamina()
-	{
-		yield return new WaitForSeconds(2);
+    private IEnumerator regenStamina()
+    {
+        yield return new WaitForSeconds(1);
 
-		while(currentStamina < maxStamina)
-		{
-			currentStamina += maxStamina / 100;
-			staminaBar.value = currentStamina;
-			yield return new regenTick();
-		}
-		regen = null;
-	}
+        while(currentStamina < maxStamina)
+        {
+            currentStamina += maxStamina / 100;
+            staminaBar.value = currentStamina;
+            yield return regenTick;
+        }
+        regen = null;
+    }
 }
