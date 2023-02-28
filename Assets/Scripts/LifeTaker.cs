@@ -11,7 +11,7 @@ public class LifeTaker : MonoBehaviour
     {
         if(collision.tag == target_tag)
         {
-            collision.GetComponent<LifeController>().Damage(damage);
+            collision.GetComponent<Player>().TakeDamage(damage);
         }
     }
 }

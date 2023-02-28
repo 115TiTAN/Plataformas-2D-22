@@ -25,12 +25,13 @@ public class DashController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash && StaminaBar.instance.GetCurrentStamina() >=20)
         {
             isDashing = true;
             lastDash = Time.time;
             canDash = false;
             rb.gravityScale = dashGravityScale;
+            StaminaBar.instance.UseStamina(20);
         }
 
         if (isDashing)
