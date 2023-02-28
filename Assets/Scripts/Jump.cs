@@ -26,15 +26,17 @@ public class Jump : MonoBehaviour
         {
 
         }
-        if(ground.grounded == true && Input.GetButtonDown("Jump"))
+        if(ground.grounded == true && Input.GetButtonDown("Jump") && StaminaBar.instance.GetCurrentStamina() >= 15)
         {
             if (efector != null && Input.GetAxis("Vertical") < 0)
             {
                 StartCoroutine(desactivar_plataforma(ground.plataforma_actual));
+                StaminaBar.instance.UseStamina(0);
             }
             else
             {
-                rb.AddForce(new Vector2(0, force));
+                rb.AddForce(new Vector3(0, force));
+                StaminaBar.instance.UseStamina(15);
             }
         }
     }
