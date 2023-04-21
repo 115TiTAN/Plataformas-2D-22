@@ -12,6 +12,7 @@ public class LifeTaker : MonoBehaviour
         if(collision.tag == target_tag)
         {
             collision.GetComponent<Player>().TakeDamage(damage);
+            GameManager.Instance.follower.GetComponent<FollowCamera>().ShakeCam(1, 1);
         }
     }
 }

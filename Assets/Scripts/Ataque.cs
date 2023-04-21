@@ -42,7 +42,7 @@ public class Ataque : MonoBehaviour
         {
             if(colisionador.CompareTag("Enemy"))
             {
-                colisionador.transform.GetComponent<Enemy>().TomarDaño(dañoGolpe);
+                colisionador.transform.GetComponent<Enemy>().TomarDano(dañoGolpe);
             }
         }
     

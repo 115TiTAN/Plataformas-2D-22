@@ -12,7 +12,7 @@ public class Enemy : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    public void TomarDaño(float daño)
+    public void TomarDano(float daño)
     {
         life -= daño;
 

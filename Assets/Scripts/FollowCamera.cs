@@ -1,22 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class FollowCamera : MonoBehaviour
 {
-    public Camera cam;
     public Transform target;
     public Vector3 offset;
     public float speed = 10;
+    CameraControl camControl = null;
     // Start is called before the first frame update
     void Start()
     {
-        cam = GetComponent<Camera>();
+        camControl = GetComponentInChildren<CameraControl>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        cam.transform.position = Vector3.Lerp(cam.transform.position, target.position + offset, Time.deltaTime * speed);
+        transform.position = Vector3.Lerp(transform.position, target.position, Time.deltaTime * speed);
+        
+    }
+
+    public void ShakeCam(float time, float magnitude)
+    {
+        if (camControl != null)
+        {
+           camControl.ShakeCamera(time, magnitude);
+           
+        }
     }
 }

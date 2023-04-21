@@ -33,7 +33,7 @@ public class StaminaBar : MonoBehaviour
 
     public void UseStamina(int amount)
     {
-        if(currentStamina - amount >= 0)
+        if (currentStamina - amount >= 0)
         {
             currentStamina -= amount;
             staminaBar.value = currentStamina;
@@ -53,7 +53,7 @@ public class StaminaBar : MonoBehaviour
     {
         yield return new WaitForSeconds(1);
 
-        while(currentStamina < maxStamina)
+        while (currentStamina < maxStamina)
         {
             currentStamina += maxStamina / 100;
             staminaBar.value = currentStamina;

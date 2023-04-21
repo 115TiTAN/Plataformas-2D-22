@@ -12,8 +12,11 @@ public class Player : MonoBehaviour
     public Vector2 knockback;
     public enum DeathMode { Destroy, Teleport, SceneReload }
     public DeathMode deathMode = DeathMode.Destroy;
+    public GameObject DeathMenuUI;
+    public GameObject Playeres;
 
     public Transform teleportPoint;
+    public int damage;
     SpriteRenderer renderer;
     public Color tint_normal;
     public Color tint_invencible;
@@ -21,6 +24,7 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        Playeres.SetActive(true);
         currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
     }
@@ -31,8 +35,9 @@ public class Player : MonoBehaviour
             Death();
         }
     }
-    public void OnTriggerEnter2D(Collider2D collision, int damage)
+    public void OnTriggerEnter2D(Collider2D collision)
     {
+
         if (collision.tag == target_tag)
         {
             collision.GetComponent<Player>().TakeDamage(damage);
@@ -48,21 +53,10 @@ public class Player : MonoBehaviour
 
     public void Death()
     {
-        if (deathMode == DeathMode.Destroy)
-        {
-            Destroy(gameObject);
-    }
-        if (deathMode == DeathMode.Teleport)
-        {
-            currentHealth = maxHealth;
-            transform.position = teleportPoint.position;
-            rb.velocity = new Vector2(0, 0);
-           
-        }
-        if (deathMode == DeathMode.SceneReload)
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        }
+        currentHealth = maxHealth;
+        Playeres.SetActive(false);
+        DeathMenuUI.SetActive(true);
+        Time.timeScale = 0f;
         Debug.Log("Death");
     }
 }
