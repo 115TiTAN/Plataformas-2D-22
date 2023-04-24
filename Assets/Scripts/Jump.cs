@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Jump : MonoBehaviour
 {
+    public bool canDobleJump = false;
     public float force = 10;
     Rigidbody2D rb;
     GroundDetector ground;
@@ -26,7 +27,11 @@ public class Jump : MonoBehaviour
         {
 
         }
-        if(ground.grounded == true && Input.GetButtonDown("Jump") && StaminaBar.instance.GetCurrentStamina() >=15)
+        if (ground.grounded)
+        {
+            canDobleJump = true;
+        }
+        if((ground.grounded || canDobleJump) && Input.GetButtonDown("Jump") && StaminaBar.instance.GetCurrentStamina() >=15)
         {
             if (efector != null && Input.GetAxis("Vertical") < 0)
             {
@@ -37,6 +42,10 @@ public class Jump : MonoBehaviour
             {
                 rb.AddForce(new Vector2(0, force));
                 StaminaBar.instance.UseStamina(15);
+                if (!ground.grounded)
+                {
+                    canDobleJump = false;
+                }
             }
         }
     }

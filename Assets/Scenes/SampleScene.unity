@@ -8949,6 +8949,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: feeca1501a2ef7c4b86accc40cba5e03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canDobleJump: 1
   force: 850
 --- !u!114 &377123764
 MonoBehaviour:

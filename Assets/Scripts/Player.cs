@@ -21,7 +21,6 @@ public class Player : MonoBehaviour
     public Color tint_normal;
     public Color tint_invencible;
     Rigidbody2D rb;
-
     void Start()
     {
         Playeres.SetActive(true);
@@ -35,6 +34,7 @@ public class Player : MonoBehaviour
             Death();
         }
     }
+
     public void OnTriggerEnter2D(Collider2D collision)
     {
 
